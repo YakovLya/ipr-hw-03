@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    ports:
+      - "127.0.0.1:${HOST_PORT}:${PORT}"
+    environment:
+      PORT: "${PORT}"
+      GREETING: "${GREETING}"
+      STORAGE: "${STORAGE}"
+      DATA_FILE: "${DATA_FILE}"
+    volumes:
+      - app-memory:/data
+
+volumes:
+  app-memory:

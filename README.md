@@ -38,3 +38,36 @@ docker run -d --name ipr-333 -p 127.0.0.1:8080:8000 ipr-hw3
 2026-11-10 22:01:19,537 http 172.17.0.1 "GET / HTTP/1.1" 200 -
 2026-11-10 22:01:23,167 http 172.17.0.1 "POST /increment HTTP/1.1" 200 -
 ```
+
+## На 6 баллов
+
+- добавил .env.example (у меня локально также просто .env), в нем настройки окружения, большая часть из readme приложения
+
+- добавил compose.yaml . В нем задал постоянный volume для контейнера. Теперь между запусками не теряются значения
+
+Запускаем 
+
+```
+docker compose up -d 
+# первый раз надо docker compose up -d --build
+```
+
+пару раз делает запрос на увеличение счетчика
+
+```
+curl -X POST http://localhost:8080/increment
+curl -X POST http://localhost:8080/increment
+curl -X POST http://localhost:8080/increment
+```
+
+Останавливаем контейнер
+
+```
+docker compose down
+```
+
+Снова запускаем из смотрим значение 
+
+```
+curl http://localhost:8080
+```

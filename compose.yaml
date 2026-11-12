@@ -10,7 +10,7 @@ services:
       DATA_FILE: "${DATA_FILE}"
       REDIS_URL: "${REDIS_URL}"
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:{$PORT}/readyz', timeout=2)"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:${PORT}/readyz', timeout=2)"]
       interval: 10s
       timeout: 5s
       retries: 3

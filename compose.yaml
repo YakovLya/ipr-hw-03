@@ -8,8 +8,24 @@ services:
       GREETING: "${GREETING}"
       STORAGE: "${STORAGE}"
       DATA_FILE: "${DATA_FILE}"
+      REDIS_URL: "${REDIS_URL}"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/readyz', timeout=2)"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+  
+
+  redis: 
+    image: redis:7.4-alpine
+    command: ["redis-server", "--appendonly", "yes"]
     volumes:
-      - app-memory:/data
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "yes"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
 volumes:
-  app-memory:
+  redis-data:

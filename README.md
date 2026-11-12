@@ -85,3 +85,76 @@ curl http://localhost:8080
 ```
 
 Счетчик не изменился, что и требовалось показать
+
+## На 8 баллов
+
+- Изменил .env (и .env.example очевидно), теперь `STORAGE=redis`
+
+- В compose.yaml добавил описание для контейнера redis'а. В приложение прокинул REDIS_URL и поменял volume на редисный
+
+- Настроил healthcheck для обоих контейнеров. Для redis стандартно. Для приложения сначала хотел через curl, потом оказалось, что curl нету в образе, поэтому через питон сделал
+
+(Запускаем и останавливаем как в разделе на 6 баллов)
+
+Проверка что данные не теряются при остановке:
+1) Запускаем
+2) Смотрим, что healthcheck работают (через `docker compose ps`)
+```
+NAME                IMAGE              COMMAND                  SERVICE   CREATED          STATUS                    PORTS
+ipr-hw-03-app-1     ipr-hw-03-app      "python app.py"          app       13 seconds ago   Up 12 seconds (healthy)   127.0.0.1:8080->8000/tcp
+ipr-hw-03-redis-1   redis:7.4-alpine   "docker-entrypoint.s…"   redis     13 seconds ago   Up 12 seconds (healthy)   6379/tcp
+```
+3) Несколько раз увеличиваем счетчик через `/increment`
+4) Останавлиавем оба контейнера
+5) Смотрим заново счетчик, все сохранилось
+
+Проверка что при остановке redis приложение не останавливается и корректно отдает ошибки:
+1) Запускаем 
+2) Останавливаем именно redis
+```
+docker compose stop redis
+```
+
+3) проверяем `GET /healthz`
+```
+curl -i  http://localhost:8080/healthz
+HTTP/1.0 200 OK
+...
+```
+
+4) проверяем `GET /readyz`
+```
+curl -i  http://localhost:8080/readyz 
+HTTP/1.0 503 Service Unavailable
+...
+```
+
+5) проверяем `POST /increment`
+```
+curl -X POST -i  http://localhost:8080/increment
+HTTP/1.0 503 Service Unavailable
+...
+```
+
+6) Обратно подключаем redis
+```
+docker compose start redis
+```
+
+7) Опять проверяем, например `POST /increment`
+```
+curl -X POST -i  http://localhost:8080/increment
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.13.18
+Date: Thu, 12 Nov 2026 22:48:47 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 90
+Cache-Control: no-store
+
+{"greeting": "Hello, Docker!", "count": 4, "hostname": "89b4b2b6ef9f", "storage": "redis"}%
+```
+
+Все работает как и должно! И счетчик не обнулился
+
+Хотел приложить логи контейнера redis и контейнера app, но в первом просто куча логов redis, без особого смысла. А у app очень много вызовов /readyz в логах от частых healthcheck'ов
+

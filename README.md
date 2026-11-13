@@ -158,3 +158,34 @@ Cache-Control: no-store
 
 Хотел приложить логи контейнера redis и контейнера app, но в первом просто куча логов redis, без особого смысла. А у app очень много вызовов /readyz в логах от частых healthcheck'ов
 
+## На 10 баллов
+
+- Добавил ограничения в compose.yaml
+
+- Написал scripts/check.sh для автопроверок
+
+Для начала проверим, что ограничения применяются
+```
+docker compose exec app id
+# должно быть uid=10001 gid=10001 groups=10001
+
+docker inspect --format 'Readonly={{.HostConfig.ReadonlyRootfs}} Memory={{.HostConfig.Memory}} NanoCpus={{.HostConfig.NanoCpus}}' "$(docker compose ps -q app)"
+# должно быть Readonly=true Memory=268435456 NanoCpus=1000000000
+```
+
+Для запуска автопроверки
+```
+# выполнять из корня репозитория
+# при необходимости предварительно
+# chmod +x ./scripts/check.sh
+./scripts/check.sh
+```
+
+Если нужен сразу .log отчет
+```
+./scripts/check.sh | tee scripts/check-42.log
+```
+
+Два успешных запуска прогнал:
+- [Первый запуск](scripts/check-01.log)
+- [Второй запуск](scripts/check-02.log)

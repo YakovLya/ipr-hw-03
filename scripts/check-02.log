@@ -1,0 +1,119 @@
+  Поднимаю compose
+ Image ipr-hw-03-check-1794534933-app Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 546B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 193B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.13-slim
+#3 DONE 0.7s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 85B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 127B done
+#5 DONE 0.0s
+
+#6 [1/5] FROM docker.io/library/python:3.13-slim@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90
+#6 resolve docker.io/library/python:3.13-slim@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90 done
+#6 DONE 0.0s
+
+#7 [3/5] COPY app/requirements.txt .
+#7 CACHED
+
+#8 [4/5] RUN pip install --no-cache-dir -r requirements.txt
+#8 CACHED
+
+#9 [2/5] WORKDIR /app
+#9 CACHED
+
+#10 [5/5] COPY app/ .
+#10 CACHED
+
+#11 exporting to image
+#11 exporting layers done
+#11 exporting manifest sha256:471e3d6a1b4e948371e487a49aec98096e9d2a14ec8676ee8b8cd1278c1a546e done
+#11 exporting config sha256:d77f366133d605db8ec119dcf12dae197a268544f27080a61aa9c20627a890f3 done
+#11 exporting attestation manifest sha256:c3b3b3a4a3b4a6076af0a36309ac93ad1a9250088c49134c7c4047626fb390b4 done
+#11 exporting manifest list sha256:199c69b1d68582f5fb68c20aca49015ed83cab9682e06b64deda254c1da63b11 done
+#11 naming to docker.io/library/ipr-hw-03-check-1794534933-app:latest done
+#11 unpacking to docker.io/library/ipr-hw-03-check-1794534933-app:latest done
+#11 DONE 0.0s
+
+#12 resolving provenance for metadata file
+#12 DONE 0.0s
+ Image ipr-hw-03-check-1794534933-app Built 
+ Network ipr-hw-03-check-1794534933_default Creating 
+ Network ipr-hw-03-check-1794534933_default Creating 
+ Volume ipr-hw-03-check-1794534933_redis-data Creating 
+ Volume ipr-hw-03-check-1794534933_redis-data Creating 
+ Volume ipr-hw-03-check-1794534933_redis-data Created 
+ Volume ipr-hw-03-check-1794534933_redis-data Created 
+ Network ipr-hw-03-check-1794534933_default Created 
+ Network ipr-hw-03-check-1794534933_default Created 
+ Container ipr-hw-03-check-1794534933-redis-1 Creating 
+ Container ipr-hw-03-check-1794534933-app-1 Creating 
+ Container ipr-hw-03-check-1794534933-app-1 Created 
+ Container ipr-hw-03-check-1794534933-redis-1 Created 
+ Container ipr-hw-03-check-1794534933-redis-1 Starting 
+ Container ipr-hw-03-check-1794534933-app-1 Starting 
+ Container ipr-hw-03-check-1794534933-redis-1 Started 
+ Container ipr-hw-03-check-1794534933-app-1 Started 
+ Container ipr-hw-03-check-1794534933-redis-1 Waiting 
+ Container ipr-hw-03-check-1794534933-app-1 Waiting 
+ Container ipr-hw-03-check-1794534933-redis-1 Healthy 
+ Container ipr-hw-03-check-1794534933-app-1 Healthy 
+  [ ] - Проверка начального состояния – начало
+  [+] - Проверка начального состояния – пройдено
+  [ ] - Проверка счётчика – начало
+  [+] - Проверка счётчика – пройдено
+  [ ] - Проверка перезапуска – начало
+ Container ipr-hw-03-check-1794534933-app-1 Recreate 
+ Container ipr-hw-03-check-1794534933-app-1 Recreated 
+ Container ipr-hw-03-check-1794534933-app-1 Starting 
+ Container ipr-hw-03-check-1794534933-app-1 Started 
+ Container ipr-hw-03-check-1794534933-app-1 Waiting 
+ Container ipr-hw-03-check-1794534933-app-1 Healthy 
+  [+] - Проверка перезапуска – пройдено
+  [ ] - Проверка отключения Redis – начало
+ Container ipr-hw-03-check-1794534933-redis-1 Stopping 
+ Container ipr-hw-03-check-1794534933-redis-1 Stopped 
+  [ ][ ] – проверяю GET /healthz
+  [ ][+] – GET /healthz -> 200
+  [ ][ ] – проверяю GET /readyz
+  [ ][+] – GET /readyz -> 503
+  [ ][ ] – проверяю POST /increment
+  [ ][+] – POST /increment -> 503
+  [+] - Проверка отключения Redis – пройдено
+  [ ] - Проверка восстановления Redis – начало
+ Container ipr-hw-03-check-1794534933-redis-1 Starting 
+ Container ipr-hw-03-check-1794534933-redis-1 Started 
+ Container ipr-hw-03-check-1794534933-redis-1 Waiting 
+ Container ipr-hw-03-check-1794534933-redis-1 Healthy 
+  [+] - Проверка восстановления Redis – пройдено
+  [ ] - Проверка резервной копии – начало
+ Container ipr-hw-03-check-1794534933-app-1 Stopping 
+ Container ipr-hw-03-check-1794534933-redis-1 Stopping 
+ Container ipr-hw-03-check-1794534933-redis-1 Stopped 
+ Container ipr-hw-03-check-1794534933-app-1 Stopped 
+ Container ipr-hw-03-check-1794534933-redis-run-e44a88021677 Creating 
+ Container ipr-hw-03-check-1794534933-redis-run-e44a88021677 Created 
+  [+] - Проверка резервной копии – пройдено
+  Начал очистку
+ Container ipr-hw-03-check-1794534933-app-1 Stopping 
+ Container ipr-hw-03-check-1794534933-redis-1 Stopping 
+ Container ipr-hw-03-check-1794534933-app-1 Stopped 
+ Container ipr-hw-03-check-1794534933-app-1 Removing 
+ Container ipr-hw-03-check-1794534933-redis-1 Stopped 
+ Container ipr-hw-03-check-1794534933-redis-1 Removing 
+ Container ipr-hw-03-check-1794534933-redis-1 Removed 
+ Container ipr-hw-03-check-1794534933-app-1 Removed 
+ Network ipr-hw-03-check-1794534933_default Removing 
+ Volume ipr-hw-03-check-1794534933_redis-data Removing 
+ Volume ipr-hw-03-check-1794534933_redis-data Removed 
+ Network ipr-hw-03-check-1794534933_default Removed 

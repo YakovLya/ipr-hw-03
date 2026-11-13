@@ -7,9 +7,9 @@ export HOST_PORT=18080
 URL="http://localhost:$HOST_PORT"
 
 cleanup() {
+    result=$?
     echo "  Начал очистку"
 
-    result=$?
 
     if [ "$result" -ne 0 ]; then
         echo "  Ошибка во время выполнения: " >&2
